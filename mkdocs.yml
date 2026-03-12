@@ -1,0 +1,71 @@
+# mkdocs.yml
+site_name: "Kuz PersonalHub — Dev Docs"
+site_description: "Architecture, decisions, and development reference for the personalhub project"
+site_author: "Alessandro Kuz"
+repo_url: https://github.com/AlessandroKuz/personalhub
+repo_name: AlessandroKuz/personalhub
+docs_dir: docs # where your .md source files live
+site_dir: site # where the built HTML goes — add this to .gitignore
+
+extra_css:
+  - stylesheets/extra.css
+
+theme:
+  name: material
+  palette:
+    # Matches your site's light/dark aesthetic
+    - scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs # top-level sections become tabs
+    - navigation.sections # sidebar shows sections
+    - navigation.top # "back to top" button
+    - search.highlight
+    - content.code.copy # copy button on code blocks
+
+markdown_extensions:
+  - admonition # nice callout boxes (note, warning, tip)
+  - pymdownx.highlight: # syntax highlighting
+      anchor_linenums: true
+  - pymdownx.superfences # code blocks inside admonitions
+  - pymdownx.tabbed: # tabbed content blocks
+      alternate_style: true
+  - toc:
+      permalink: true # anchor links on headings
+
+nav:
+  - Home: index.md
+  - Features: features.md
+  - Architecture:
+      - Overview: architecture/overview.md
+      - Settings & Configuration: architecture/settings.md
+      - URL Structure: architecture/urls.md
+      - Async & ASGI: architecture/async.md
+  - Apps:
+      - Core: apps/core.md
+      - Projects: apps/projects.md
+      - Blog: apps/blog.md
+  - Frontend:
+      - Design System: frontend/design-system.md
+      - Templates: frontend/templates.md
+      - Components: frontend/components.md
+      - HTMX Patterns: frontend/htmx.md
+      - i18n: frontend/i18n.md
+  - Testing:
+      - TDD Approach: testing/tdd.md
+  - Infrastructure:
+      - Docker: infrastructure/docker.md
+      - Deployment: infrastructure/deployment.md
+      - Hosting Options: infrastructure/hosting.md
+  - Decisions Log: decisions.md
+  - Live Site: https://alessandrokuz.com
