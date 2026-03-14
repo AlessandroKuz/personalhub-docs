@@ -82,6 +82,6 @@ privacy-friendly analytics (e.g. Plausible), dark/light theme persistence.
 
 ### Phase 5 — Chat
 
-apps.chat with ChatSession + ChatMessage models. Django Channels
+`apps.chat` with `ChatSession` + `ChatMessage` models. Django Channels
 for streaming token output. RAG over projects + blog content via ChromaDB.
 Admin-editable system prompt.
