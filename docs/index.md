@@ -47,9 +47,11 @@ uv run mkdocs serve --dev-addr 127.0.0.1:8001
 
 | Section | Contents |
 | --- | --- |
+| [Features](features.md) | Project main features |
 | [Architecture](architecture/overview.md) | Project structure, settings split, URL tree, async rationale |
 | [Apps](apps/core.md) | Per-app views, models, URL patterns |
 | [Frontend](frontend/design-system.md) | Design system, templates, HTMX patterns, i18n |
+| [Testing](testing/tdd.md) | Testing architecture, TDD philosophy |
 | [Infrastructure](infrastructure/docker.md) | Docker setup, deployment, hosting options |
 | [Decisions Log](decisions.md) | Why things were done the way they were |
 
@@ -71,3 +73,15 @@ Django admin for content management.
 
 `apps.blog` with `Post` model. Markdown editor. WebSocket live preview.
 Custom lightweight writing interface.
+
+### Phase 4 — Polishing
+
+SEO, accessibility, and performance pass across all existing apps.
+Custom 404/500 pages, Open Graph meta tags, Lighthouse audit (target 95+),
+privacy-friendly analytics (e.g. Plausible), dark/light theme persistence.
+
+### Phase 5 — Chat
+
+apps.chat with ChatSession + ChatMessage models. Django Channels
+for streaming token output. RAG over projects + blog content via ChromaDB.
+Admin-editable system prompt.
