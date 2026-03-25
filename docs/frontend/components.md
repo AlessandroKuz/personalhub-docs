@@ -1,4 +1,9 @@
+> Last updated: 25th March 2026
+
 # Components
+
+!!! info
+    Most of these have not been implemented yet and are subject to change.
 
 ## Philosophy
 
@@ -14,8 +19,6 @@ templates/
 ├── components/             # structural UI — present on most/all pages
 │   ├── _nav.html
 │   ├── _footer.html
-│   ├── _lang_switcher.html
-│   ├── _theme_toggle.html
 │   └── _cta.html
 └── partials/               # content fragments — often HTMX targets
     ├── _project_card.html
@@ -37,30 +40,26 @@ HTMX requests return. A `GET /projects/?tag=django` response is just
 ## Component Inventory
 
 ### `_nav.html`
+
 The navigation bar. Included once in `base.html`. Contains:
+
 - Site logo / name (links to `core:home`)
 - Navigation links (About, Work, Projects, Blog)
-- Language switcher (`_lang_switcher.html`)
-- Theme toggle (`_theme_toggle.html`)
+- Language switcher
+- Theme toggle
 
 Keeping nav isolated means restyling or adding a link touches exactly one file.
 
 ### `_footer.html`
+
 Site footer. Included once in `base.html`. Contains:
+
 - Social links (GitHub, LinkedIn)
 - Copyright line
 - Secondary navigation if needed
 
-### `_lang_switcher.html`
-The EN/IT language selector. A small `<form>` that POSTs to Django's built-in
-`set_language` endpoint. Isolated so it can be placed in the nav, footer, or
-anywhere else without duplication.
-
-### `_theme_toggle.html`
-A single button that flips `data-theme` on `<html>`. Isolated for the same reason
-as the language switcher — placement flexibility, zero duplication.
-
 ### `_cta.html`
+
 The "Contact me" call-to-action block. Appears at the bottom of the landing page
 and at the end of the About and Work pages. One file, three placements:
 
@@ -75,6 +74,7 @@ If the copy, styling, or destination URL ever changes, it changes once.
 ## Content Partials
 
 ### `_project_card.html`
+
 Renders a single `Project` instance — title, description snippet, tag chips,
 GitHub/live links. Used by `_project_grid.html`.
 
@@ -90,6 +90,7 @@ GitHub/live links. Used by `_project_grid.html`.
 ```
 
 ### `_project_grid.html`
+
 Loops over a `projects` queryset and renders a `_project_card.html` for each.
 This is the **HTMX target** for tag filtering — the entire grid is swapped in one
 operation without touching the nav, filters, or page heading.
@@ -103,11 +104,13 @@ operation without touching the nav, filters, or page heading.
 ```
 
 ### `_blog_card.html`
+
 The blog post preview — title, published date, opening paragraph or excerpt, and
 a "Read more" link. The equivalent of `_project_card.html` for posts. Each entry
 on the `/blog/` listing page is one of these.
 
 ### `_contact_form.html` / `_contact_success.html`
+
 The two states of the contact form interaction. The form renders by default;
 on successful submission HTMX swaps it for the success confirmation. Both are
 partials so they can be returned directly from a view without a full page render.

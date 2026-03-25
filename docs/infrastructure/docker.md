@@ -1,3 +1,5 @@
+> Last updated: 25th March 2026
+
 # Docker
 
 ## Philosophy
@@ -14,7 +16,7 @@ The application code is identical in both — only the infrastructure layer diff
 ## Dockerfile
 
 ```dockerfile
-FROM python:3.14-slim
+FROM python:3.14-slim-trixie
 
 # Install uv from its official image (fast, no pip needed)
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
@@ -78,7 +80,7 @@ services:
         condition: service_healthy
 
   db:
-    image: postgres:16-alpine
+    image: postgres:18-alpine
     restart: always
     volumes:
       - postgres_data:/var/lib/postgresql/data

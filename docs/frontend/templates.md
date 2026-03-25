@@ -1,3 +1,5 @@
+> Last updated: 25th March 2026
+
 # Templates
 
 ## Template Hierarchy
@@ -17,6 +19,7 @@ templates/
 ```
 
 **Naming convention:**
+
 - `_underscore.html` prefix → partial or component, not a standalone page
 - `page_name.html` → full page template (always extends `base.html`)
 

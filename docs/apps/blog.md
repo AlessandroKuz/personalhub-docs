@@ -1,6 +1,11 @@
+> Last updated: 25th March 2026
+
 # App: Blog
 
 Phase 3. Writing, publishing, and managing blog posts with a lightweight editor.
+
+!!! info
+    Example code - NOT YET IMPLEMENTED
 
 ## Responsibility
 

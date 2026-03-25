@@ -1,3 +1,5 @@
+> Last updated: 25th March 2026
+
 # Architecture Overview
 
 ## The Stack in Layers
@@ -10,7 +12,7 @@
 │  HTMX (the nervous system)                          │
 │  Partial page updates without a full SPA            │
 ├─────────────────────────────────────────────────────┤
-│  Bootstrap 5 + minimal JS (the body)                │
+│  Bootstrap 5 + minimal CSS & JS (the body)                │
 │  Responsive layout · Theme toggle · Interactions    │
 └─────────────────────────────────────────────────────┘
 ```
@@ -75,7 +77,7 @@ personalhub/
 
 A request to `/it/projects/` travels this path:
 
-```
+```text
 Browser
   → Cloudflare (CDN / DDoS layer)
     → Caddy (TLS termination, reverse proxy)

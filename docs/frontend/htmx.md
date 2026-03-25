@@ -1,3 +1,5 @@
+> Last updated: 25th March 2026
+
 # HTMX Patterns
 
 ## What HTMX Does

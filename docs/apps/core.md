@@ -1,3 +1,5 @@
+> Last updated: 25th March 2026
+
 # App: Core
 
 The main app. Contains all personal content: landing page, about, work/career, contact.
@@ -22,22 +24,26 @@ The main app. Contains all personal content: landing page, about, work/career, c
 ## Pages
 
 ### Landing (`/`)
+
 TLDR of each section — each block links to its dedicated page.
 Prominent CTA: "Contact me" → `/contact/`.
 Sections: hero, about snippet, work/skills snippet, projects preview, blog preview, contact.
 
 ### About (`/about/`)
+
 Personal description, background, languages spoken, interests, personality.
 
 ### Work/Career (`/work/`)
+
 - Skills and capabilities overview
 - Interactive education + career timeline (CSS/HTML, no model needed in phase 1)
 - CV download (PDF served from `static/img/` or `static/files/`)
 
 ### Contact (`/contact/`)
+
 - Email contact form (HTMX-powered — no full page reload on submit)
 - cal.com scheduling link
-- Social links: GitHub, LinkedIn
+- Social links: GitHub, LinkedIn, (YouTube - Soon)
 
 ---
 
@@ -45,6 +51,9 @@ Personal description, background, languages spoken, interests, personality.
 
 The form submits via HTMX. The server returns an HTML fragment — either the form with
 inline errors, or a success confirmation — which HTMX swaps in without a page reload.
+
+!!! info
+    Example code - NOT YET IMPLEMENTED
 
 ```python
 # apps/core/views.py

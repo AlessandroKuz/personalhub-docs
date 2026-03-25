@@ -1,3 +1,5 @@
+> Last updated: 25th March 2026
+
 # Hosting Options
 
 Two approaches will be explored and compared hands-on before settling on one.
@@ -45,7 +47,7 @@ cloudflared:
     - TUNNEL_TOKEN=${CF_TUNNEL_TOKEN}
 ```
 
-5. In the Cloudflare dashboard, configure the tunnel to route traffic to `web:8000`
+1. In the Cloudflare dashboard, configure the tunnel to route traffic to `web:8000`
 
 ---
 
@@ -94,11 +96,7 @@ No certbot, no cron jobs, zero manual renewal.
 
 The MkDocs `site/` directory is pure static HTML. Two options:
 
-**Option 1 — Same server (Caddy subdomain):**
-Caddy serves `site/` directly as static files under `docs.yourdomain.com`.
-Free, zero extra infrastructure.
-
-**Option 2 — Cloudflare Pages:**
+**Option 1 — Cloudflare Pages:**
 Push `site/` to a separate git branch; Cloudflare Pages deploys it automatically.
 Free tier, globally distributed CDN, completely separate from your main server.
 

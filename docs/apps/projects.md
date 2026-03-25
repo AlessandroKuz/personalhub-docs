@@ -1,6 +1,11 @@
+> Last updated: 25th March 2026
+
 # App: Projects
 
 Phase 2. Manages and displays portfolio projects dynamically via Django models and admin.
+
+!!! info
+    Example code - NOT YET IMPLEMENTED
 
 ## Responsibility
 

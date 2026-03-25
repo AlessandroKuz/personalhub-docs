@@ -1,3 +1,5 @@
+> Last updated: 25th March 2026
+
 # URL Structure
 
 ## The URL Tree
@@ -12,7 +14,8 @@ config/urls.py  (root)
 ├── [i18n_patterns]
 │   ├── /  →                 apps.core.urls
 │   ├── projects/  →         apps.projects.urls
-│   └── blog/  →             apps.blog.urls
+│   ├── blog/  →             apps.blog.urls
+│   └── .../  →              # other apps
 └── __debug__/               ← debug toolbar (dev only, import inside if DEBUG)
 ```
 
@@ -36,7 +39,8 @@ urlpatterns += i18n_patterns(
     path('', include('apps.core.urls')),
     path('projects/', include('apps.projects.urls')),
     path('blog/', include('apps.blog.urls')),
-    prefix_default_language=False,
+    ...
+    prefix_default_language=True,
 )
 
 if settings.DEBUG:
@@ -46,16 +50,16 @@ if settings.DEBUG:
     # A top-level import crashes prod because debug_toolbar is not installed there.
 ```
 
-### prefix_default_language=False
+### prefix_default_language=True
 
 | URL | Language | With flag | Without flag |
 |---|---|---|---|
-| `/about/` | English | ✅ works | ❌ 404 |
+| `/about/` | English | ✅ works | Redirects |
 | `/en/about/` | English | ✅ also works | ✅ works |
 | `/it/about/` | Italian | ✅ works | ✅ works |
 
-With `prefix_default_language=False`, English (the default) gets clean URLs.
-Non-default languages always have a prefix.
+With `prefix_default_language=True`, every language gets the prefix for consistency.
+Non-prefixed links get redirected.
 
 ---
 
@@ -75,6 +79,7 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('work/', views.work, name='work'),
     path('contact/', views.contact, name='contact'),
+    ...
 ]
 ```
 

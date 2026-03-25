@@ -1,3 +1,5 @@
+> Last updated: 25th March 2026
+
 # Settings & Configuration
 
 ## The Settings Split
@@ -25,15 +27,15 @@ config/settings/
 ```python
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",        # must be 2nd
+    "whitenoise.middleware.WhiteNoiseMiddleware",        # added
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.locale.LocaleMiddleware",         # after Session, before Common
+    "django.middleware.locale.LocaleMiddleware",         # added
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "django_htmx.middleware.HtmxMiddleware",             # adds request.htmx
+    "django_htmx.middleware.HtmxMiddleware",             # added
 ]
 ```
 

@@ -4,8 +4,8 @@ site_description: "Architecture, decisions, and development reference for the pe
 site_author: "Alessandro Kuz"
 repo_url: https://github.com/AlessandroKuz/personalhub
 repo_name: AlessandroKuz/personalhub
-docs_dir: docs # where your .md source files live
-site_dir: site # where the built HTML goes — add this to .gitignore
+docs_dir: docs
+site_dir: site
 
 extra_css:
   - stylesheets/extra.css
@@ -55,6 +55,7 @@ nav:
       - Core: apps/core.md
       - Projects: apps/projects.md
       - Blog: apps/blog.md
+      - Future Apps: apps/future-apps.md
   - Frontend:
       - Design System: frontend/design-system.md
       - Templates: frontend/templates.md

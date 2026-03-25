@@ -1,8 +1,10 @@
+> Last updated: 25th March 2026
+
 # Design System
 
 ## Principles
 
-- Monochromatic with a single red accent — intentional, not unfinished
+- Monochromatic with a single blue accent — intentionally minimalist
 - CSS custom properties for every colour — never hardcoded values
 - Two themes (light/dark) via `data-theme` attribute on `<html>`
 - Bootstrap 5 for layout and components — no PostCSS/build step needed
@@ -15,21 +17,14 @@
 /* static/css/main.css */
 
 :root {
-    --color-bg:       #f8f7f4;   /* warm white — easier on eyes than pure #fff */
-    --color-surface:  #efefec;   /* cards, subtle section backgrounds */
-    --color-text:     #1a1a1a;
-    --color-muted:    #6b6b6b;
-    --color-accent:   #c0392b;   /* red — works on light backgrounds */
-    --color-border:   #e0ddd8;
-}
+  --accent
 
-[data-theme="dark"] {
-    --color-bg:       #141414;
-    --color-surface:  #1e1e1e;
-    --color-text:     #e8e6e1;
-    --color-muted:    #888;
-    --color-accent:   #e74c3c;   /* slightly lighter red for dark backgrounds */
-    --color-border:   #2a2a2a;
+  --color-bg
+  --color-bg2
+  --color-surface
+  --color-text
+  --color-muted
+  --color-border
 }
 ```
 
@@ -54,18 +49,34 @@ toggle.addEventListener('click', () => {
 });
 ```
 
+Via a simple javascript change, the theme is updated dynamically.
+
+```javascript
+(function () {
+  var s = localStorage.getItem("theme") || "auto";
+  var t = s === "auto"
+    ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+    : s;
+  document.documentElement.setAttribute("data-theme", t);
+  document.documentElement.setAttribute("data-bs-theme", t);
+})();
+```
+
+Theme initialization in `base.html` guarantees no theme flash.
+
 ---
 
 ## Typography
 
-System font stack — no external font load, no flash of unstyled text, instant render:
+System font stack — custom fonts for tailored experience:
 
-```css
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-                 "Helvetica Neue", Arial, sans-serif;
-}
+```scss
+$font-family-sans-serif: ...;
+
+$font-family-monospace: ...;
 ```
+
+Defined inside the scss, recalled in css, ensuring consistency.
 
 ---
 
@@ -84,3 +95,9 @@ Bootstrap 5's grid. Mobile-first — styles apply upward from the breakpoint:
 <!-- 1 col on mobile, 2 on tablet, 3 on desktop -->
 <div class="col-12 col-md-6 col-lg-4">...</div>
 ```
+
+---
+
+## Custom CSS for design tuning
+
+Extra CSS files per page are used to improve on the base design.

@@ -1,3 +1,5 @@
+> Last updated: 25th March 2026
+
 # Async & ASGI
 
 ## Why ASGI from Day 1
@@ -83,4 +85,5 @@ it doesn't give you true async behaviour or WebSocket support during development
 | Phase 1-2 pages | Doesn't matter — but doesn't hurt |
 | Contact form (HTMX) | Still just HTTP — no real difference |
 | Phase 3 blog live preview | **WebSocket** — impossible under WSGI |
+| Phase 5 chat | Streaming tokens + WebSocket — WSGI blocks the worker for the full inference duration; ASGI awaits non-blocking and streams tokens back as they're generated |
 | High concurrency (traffic spike) | Event loop handles more concurrent requests than thread pool |

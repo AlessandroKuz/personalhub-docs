@@ -1,6 +1,8 @@
+> Last updated: 25th March 2026
+
 # Personalhub — Developer Documentation
 
-Personal portfolio and central hub for Alex — ML Engineer, Data Scientist, Builder.
+Personal portfolio and central hub for Alex — Data Scientist, AI/ML Engineer, Builder.
 
 Built with Django 6 + HTMX + Bootstrap 5, served async via Uvicorn/ASGI, containerised
 with Docker, fronted by Cloudflare.
@@ -39,11 +41,13 @@ uv run mkdocs serve --dev-addr 127.0.0.1:8001
 | Package manager | uv |
 | Database (dev) | SQLite |
 | Database (prod) | PostgreSQL |
-| Languages | EN (default), IT, (ES, DE - Soon) |
+| Languages | EN (default), IT, ES, DE |
 
 ---
 
 ## What's Here
+
+> Logical order, not alphabetical
 
 | Section | Contents |
 | --- | --- |
@@ -59,9 +63,12 @@ uv run mkdocs serve --dev-addr 127.0.0.1:8001
 
 ## Development Phases
 
+### Phase 0 — Personal Hub
+
 ### Phase 1 — Personal Hub *(current)*
 
 Static-ish content. No database models needed for core content.
+Custom 404/500 pages, Open Graph meta tags, Lighthouse audit (target 95+),
 Pages: Landing, About, Work/Career (with timeline + CV download), Contact.
 
 ### Phase 2 — Dynamic Projects

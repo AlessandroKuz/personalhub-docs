@@ -1,3 +1,5 @@
+> Last updated: 25th March 2026
+
 # Deployment
 
 ## First Deploy Checklist
@@ -44,10 +46,10 @@ The `up -d` command replaces running containers with newly built ones with zero 
 
 ## Updating the Docs
 
+If using Cloudflare Pages — push the site/ directory to the deployment branch
+
 ```bash
 uv run mkdocs build          # builds docs/site/
-# If using Caddy to serve site/ — it picks up changes immediately (static files)
-# If using Cloudflare Pages — push the site/ directory to the deployment branch
 ```
 
 ---

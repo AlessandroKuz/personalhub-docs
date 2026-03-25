@@ -1,48 +1,59 @@
-# Personal Hub — Project Context & Architecture Reference
+> Last updated: 25th March 2026
 
-> Living document. Update as the project evolves.  
-> Last updated: 10th March 2026
+# Personal Hub — Project Context & Architecture Reference
 
 ---
 
 ## 1. Who Is This For
 
-**Alessandro Kuz** (also known as "Alex" or "Kuz") — ML Engineer, Data Scientist, and Builder. 3+ years of professional experience.
-Italian national, based in Italy. Polyglot: Italian (native), English (fluent), Spanish, Russian,
+**Alessandro Kuz** (also known as "Alex" or "Kuz") — Data Scientist, AI/ML
+Engineer, and Builder. 3+ years of professional experience.
+Based in Italy. Polyglot: Italian (native), English (fluent), Spanish, Russian,
 Ukrainian, German (decreasing fluency).
 
 The website serves two audiences simultaneously:
 
-- **The world** — a central hub that communicates who Alex is, what he builds, what he thinks,
-  and how to reach him. Functions as both a personal brand and a living CV.
-- **Future Alex** — a codebase that teaches, not just works. Every architectural decision is
-  documented so the project can be reproduced from scratch with minimal help.
+- **The world** — a central hub that communicates who Alex is, what he builds,
+  what he thinks, and how to reach him. Functions as both a personal brand and
+  a living CV.
+- **Future Alex** — a codebase that teaches, not just works. Every
+  architectural decision is documented so the project can be reproduced from
+  scratch with minimal help.
 
 ---
 
 ## 2. Goals & Philosophy
 
 ### Primary Goals
+
 1. Ship a clean, minimal personal website/portfolio.
-2. Learn the full stack end-to-end: Django, HTMX, async Python, Docker, deployment, DNS.
-3. Build a foundation that grows through three phases without requiring structural rewrites.
+2. Learn the full stack end-to-end: Django, HTMX, async Python, Docker,
+   deployment, DNS.
+3. Build a foundation that grows through three phases without requiring
+   structural rewrites.
 
 ### Design Philosophy
+>
 > "Do more with less."
 
-- **No JavaScript frameworks** (no React, Vue, Angular). The server assembles HTML; the browser
-  displays it.
-- **HTMX** for dynamic interactions — partial page swaps triggered by HTML attributes, not JS.
-- **Minimal custom JS** — only for things HTMX cannot handle (theme toggle, scroll effects).
-- **Bootstrap 5** as the CSS framework — responsive grid and components without fighting the tool.
-- **Fast, accessible, indexable** — server-side rendering means no hydration, no flash of
-  unstyled content, full SEO compatibility out of the box.
+- **No JavaScript frameworks** (no React, Vue, Angular). The server assembles
+  HTML; the browser displays it.
+- **HTMX** for dynamic interactions — partial page swaps triggered by HTML
+  attributes, not JS.
+- **Minimal custom JS** — only for things HTMX cannot handle (theme toggle,
+  scroll effects).
+- **Bootstrap 5** as the CSS framework — responsive grid and components without
+  fighting the tool.
+- **Fast, accessible, indexable** — server-side rendering means no hydration,
+  no flash of unstyled content, full SEO compatibility out of the box.
 
 ### Design Aesthetic
-- Monochromatic with single accent: warm white / near-black + red accent (`#c0392b` light,
-  `#e74c3c` dark).
+
+- Monochromatic with single accent: warm white / near-black + blue accent
+  (`#c0392b` light, `#e74c3c` dark).
 - Light and dark themes, toggled via a `data-theme` attribute on `<html>`.
-- CSS custom properties (`--color-bg`, `--color-accent`, etc.) — never hardcoded colors.
+- CSS custom properties (`--color-bg`, `--color-accent`, etc.) — never
+  hardcoded colors.
 - Fully responsive: desktop and mobile first-class citizens.
 
 ---
@@ -50,18 +61,18 @@ The website serves two audiences simultaneously:
 ## 3. Tech Stack
 
 | Layer | Technology | Why |
-|---|---|---|
+| --- | --- | --- |
 | Language | Python 3.14 | Bleeding edge, intentional |
 | Framework | Django 6.0 | Batteries-included, mature async support |
-| Async server | Uvicorn (ASGI) | Non-blocking, ready for WebSockets in phase 3 |
+| Async server | Uvicorn (ASGI) | Non-blocking, ready for WebSockets in future |
 | Templating | Django Templates | Server-side, no JS bundle, SEO-friendly |
 | Interactivity | HTMX | HTML-attribute-driven partial updates |
 | CSS | Bootstrap 5 + custom CSS | Responsive grid, no JS framework needed |
-| Static files | WhiteNoise | Serves static files without a separate nginx layer |
+| Static files | WhiteNoise | Serves static files without a separate layer |
 | Package manager | uv | Single tool: replaces pip + venv + pip-tools |
 | Linter/formatter | Ruff | Fast, configured in pyproject.toml |
 | Dev tools | django-debug-toolbar | Query inspection, template analysis |
-| i18n | Django i18n + manual translations | EN/IT/ES/DE/RU |
+| i18n | Django i18n + manual translations | EN/IT/ES/DE |
 | Containerisation | Docker + Docker Compose | Dev/prod parity, easy migration |
 | Reverse proxy | Caddy | Auto-HTTPS via Let's Encrypt, minimal config |
 | DDoS / CDN | Cloudflare (free tier) | Absorbs attacks, hides origin IP |
@@ -75,18 +86,18 @@ The website serves two audiences simultaneously:
 ```
 personalhub/
 │
-├── config/                         # Project config — NOT an app
+├── config/                         # Project config
 │   ├── settings/
 │   │   ├── __init__.py             # Empty package marker
 │   │   ├── base.py                 # Shared across all environments
-│   │   ├── dev.py                  # DEBUG=True, SQLite, console email
-│   │   └── prod.py                 # PostgreSQL, HTTPS, security headers
+│   │   ├── dev.py                  # Local Development settings
+│   │   └── prod.py                 # Production settings
 │   ├── urls.py                     # Root URL dispatcher
 │   ├── asgi.py                     # ASGI entry point (uvicorn target)
 │   └── wsgi.py                     # Kept for compatibility
 │
 ├── apps/
-│   ├── core/                       # Phase 1: home, about, career, contact
+│   ├── core/                       # Phase 1: home, about, work, contact
 │   │   ├── __init__.py
 │   │   ├── apps.py                 # AppConfig (name = "apps.core")
 │   │   ├── urls.py
@@ -97,7 +108,13 @@ personalhub/
 │   │   ├── models.py
 │   │   ├── urls.py
 │   │   └── views.py
-│   └── blog/                       # Phase 3: Post model, admin writing UI
+│   ├── blog/                       # Phase 3: Post model, admin writing UI
+│   │   ├── __init__.py
+│   │   ├── apps.py
+│   │   ├── models.py
+│   │   ├── urls.py
+│   │   └── views.py
+│   └── chat/                       # Phase 5: A ChatBot to interact about Alex
 │       ├── __init__.py
 │       ├── apps.py
 │       ├── models.py
@@ -138,34 +155,38 @@ personalhub/
 
 ## 5. Settings Architecture
 
-Settings are split by environment. `DJANGO_SETTINGS_MODULE` controls which file loads.
+Settings are split by environment. `DJANGO_SETTINGS_MODULE` controls which file
+loads.
 
 ```
 base.py         ← everything shared (apps, middleware, templates, i18n, email config)
-  ├── dev.py    ← imports base.*, adds DEBUG, SQLite, debug-toolbar, console email backend
-  └── prod.py   ← imports base.*, adds PostgreSQL, HTTPS headers, security settings
+  ├── dev.py    ← adds DEBUG, SQLite, debug-toolbar, console email backend
+  └── prod.py   ← adds PostgreSQL, HTTPS headers, security settings
 ```
 
 **How the environment variable flows:**
 
 1. `.env` sets `DJANGO_SETTINGS_MODULE=config.settings.dev` (loaded by `python-dotenv`)
-2. `manage.py` has `setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.dev')` as a fallback
+2. `manage.py` has `setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.dev')`
+   as a fallback
 3. `setdefault` means: "use this value *only if the variable isn't already set*"
-4. In production, `.env` sets `config.settings.prod` — `manage.py` never overrides it
+4. In production, `.env` sets `config.settings.prod` — `manage.py` never
+   overrides it
 
 **Critical ordering in `MIDDLEWARE`:**
+
 ```python
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",       # must be 2nd
+    "whitenoise.middleware.WhiteNoiseMiddleware",       # added
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.locale.LocaleMiddleware",        # after Session, before Common
+    "django.middleware.locale.LocaleMiddleware",        # added
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "django_htmx.middleware.HtmxMiddleware",            # adds request.htmx
+    "django_htmx.middleware.HtmxMiddleware",            # added
 ]
 ```
 
@@ -177,6 +198,7 @@ Languages supported: English (default), Italian, Spanish, German.
 All translations are done manually by Alex.
 
 **How Django i18n works:**
+
 - Templates use `{% trans "Hello" %}` or `{% blocktrans %}...{% endblocktrans %}`
 - `makemessages` scans the codebase and generates `.po` files in `locale/`
 - Alex fills in translations in the `.po` files
@@ -188,12 +210,13 @@ All translations are done manually by Alex.
 SEO-friendly. Implemented via `i18n_patterns()` in `config/urls.py`.
 
 **Key setting:**
+
 ```python
 LANGUAGES = [
     ('en', 'English'),
     ('it', 'Italiano'),
-    # ('es', 'Español'),   # uncomment when translations are ready
-    # ('de', 'Deutsch'),
+    ('es', 'Español'),
+    ('de', 'Deutsch'),
 ]
 LOCALE_PATHS = [BASE_DIR / "locale"]
 ```
@@ -209,6 +232,7 @@ Django is running under **ASGI via Uvicorn** from day one. This means:
 - Views are written as `async def` with `await` on all ORM calls
 
 **The one gotcha — sync code in async context:**
+
 ```python
 # Use native async ORM methods:
 projects = await Project.objects.filter(featured=True).alist()
@@ -218,49 +242,94 @@ from asgiref.sync import sync_to_async
 result = await sync_to_async(some_sync_library_call)(args)
 ```
 
-**Dev server:** Always use `uvicorn` directly, never `manage.py runserver` — the latter uses
-WSGI internally and won't test your async code paths.
+**Dev server:** Always use `uvicorn` directly, never `manage.py runserver` — the
+latter uses WSGI internally and won't test your async code paths.
+
 ```bash
 uv run uvicorn config.asgi:application --reload
 ```
 
 ---
 
-## 8. Three Development Phases
+## 8. Multi-Phase Development
 
-### Phase 1 — Personal Hub (Current)
+### Phase 0 — Personal Hub (Current)
+
 **Goal:** Ship something real. Static-ish content, no models needed.
 
-Pages:
-- **Landing** — TLDR of each section, CTA to contact
-- **About** — personal description, interests, personality
-- **Work/Career** — skills, achievements, interactive timeline (education + career),
-  CV download
-- **Contact** — email form (HTMX submission) + cal.com link
+Content:
+
+- **Landing page** — TLDR of each section, CTA to contact, CV download
+  - Hero
+  - About
+  - Work
+  - Projects
+  - Process
+  - **Contact section** — email + cal.com links
 
 Architecture:
+
 - `apps.core` only
 - `TemplateView` or simple async function views
 - No database queries (or minimal — contact form logs optionally)
-- HTMX: contact form submission (no page reload, server returns success/error partial)
+
+### Phase 1 — Personal Hub (Current)
+
+**Goal:** Expands on the landing page by adding extended versions of the
+sections to dedicated pages.
+
+New:
+
+- Dedicated pages:
+  - **About** — personal description, interests, personality
+  - **Work/Career** — skills, achievements, interactive timeline (education + career),
+    CV download
+  - **Contact** — email form (HTMX submission) + cal.com link
+  - **Error pages** — 400/500 pages with custom errors
 
 ### Phase 2 — Dynamic Projects
+
 **Goal:** Manage and display projects via Django admin.
 
 New:
+
 - `apps.projects` with `Project` and `Tag` models
 - `ListView` + `DetailView` (async)
 - HTMX: filter projects by tag without full page reload
 - Django admin for content management
 
 ### Phase 3 — Blog
+
 **Goal:** Write and publish from a simple interface.
 
 New:
+
 - `apps.blog` with `Post` model (title, slug, body, status, published_at)
 - Custom writing view with Markdown editor (EasyMDE via CDN)
 - WebSocket-based live preview (this is where ASGI pays off visibly)
 - Django admin + potentially a custom lightweight editor view
+
+### Phase 4 — Polish and cleanup
+
+**Goal:** Complete cleanup of code and content, small improvements and refactoring.
+
+New:
+
+- Improve content
+- Improve HTML, CSS & JS
+- Improve code structure if necessary
+
+### Phase 5 — Chat
+
+**Goal:** Interact with a simple ChatBot about Alex, his projects, career and
+the website.
+
+New:
+
+- `apps.chat` with chatbot with RAG.
+- Interaction on multiple languages.
+- Custom greetings and interaction.
+- Content ingestion with CV, Career data, projects and meta-knowledge of itself.
 
 ---
 
@@ -282,15 +351,9 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
     path('', include('apps.core.urls')),
     path('projects/', include('apps.projects.urls')),
-    path('blog/', include('apps.blog.urls')),
-    prefix_default_language=False,  # /about/ works as well as /en/about/
+    # ...
+    prefix_default_language=True,  # /about/ redirects to /en/about/
 )
-
-if settings.DEBUG:
-    from debug_toolbar.toolbar import debug_toolbar_urls
-    urlpatterns += debug_toolbar_urls()
-    # Import is inside the if — critical. A top-level import would crash prod
-    # because debug_toolbar is not in prod's INSTALLED_APPS.
 ```
 
 ---
@@ -300,19 +363,20 @@ if settings.DEBUG:
 Two approaches will be explored and compared:
 
 ### Option A — Home Server (Dell Optiplex) + Cloudflare Tunnel
-```
-Internet → Cloudflare Edge → [outbound tunnel] → cloudflared → Docker → Django
-```
+
+`Internet → Cloudflare Edge → [outbound tunnel] → cloudflared → Docker → Django`
+
 - Cost: ~€0/mo (electricity already paid)
-- Home IP never exposed — Cloudflare Tunnel makes an outbound connection, no port forwarding
+- Home IP never exposed — Cloudflare Tunnel makes an outbound connection, no
+  port forwarding
 - DDoS protection: Cloudflare absorbs it before it reaches the server
 - Risk: power cut or ISP outage = downtime
 - Best for: learning, homelab, personal tolerance for occasional downtime
 
 ### Option B — VPS (~€5/mo) + Caddy
-```
-Internet → Cloudflare (DNS + CDN) → VPS → Caddy → Docker → Django
-```
+
+`Internet → Cloudflare (DNS + CDN) → VPS → Caddy → Docker → Django`
+
 - Cost: fixed €4/mo
 - 99.9% uptime SLA
 - Caddy handles automatic TLS (Let's Encrypt) with zero config
@@ -324,13 +388,13 @@ Copy `docker-compose.prod.yml` + `.env` to new host, run `docker compose up`. Do
 Maybe **Hetzner VPS (CX22, ~€4/mo)** or **Linode**.
 
 ### Production Stack
-```
+
 docker-compose.prod.yml:
-  - Django + Uvicorn (ASGI)
-  - PostgreSQL
-  - Caddy (reverse proxy, auto-HTTPS)
-  - cloudflared (if home server option)
-```
+
+- Django + Uvicorn (ASGI)
+- PostgreSQL
+- Caddy (reverse proxy, auto-HTTPS)
+- cloudflared (if home server option)
 
 ---
 
@@ -354,6 +418,7 @@ uv run python manage.py makemessages -l it    # extract strings to .po files
 uv run python manage.py compilemessages       # compile .po → .mo
 
 # Static files (prod only)
+uv run python manage.py compress
 uv run python manage.py collectstatic
 
 # Linting
@@ -370,7 +435,7 @@ uv run ruff format .
 
 # Django
 SECRET_KEY=
-DJANGO_SETTINGS_MODULE=config.settings.dev
+DJANGO_SETTINGS_MODULE=config.settings.dev  # replacable with prod
 ALLOWED_HOSTS=localhost,127.0.0.1
 
 # Email (dev uses console backend — these are ignored in dev)
@@ -394,12 +459,12 @@ POSTGRES_PORT=5432
 ## 13. Decisions Log
 
 | Decision | Rationale |
-|---|---|
+| --- | --- |
 | ASGI from day 1 | Zero refactor cost now; WebSockets needed in phase 3 |
 | SQLite dev / Postgres prod | Simplicity in dev, correctness in prod |
 | uv over pip+venv | Single tool, faster, lockfile for reproducibility |
-| WhiteNoise over nginx for static | Simpler stack; nginx adds no meaningful value at this scale |
-| Bootstrap 5 (not Tailwind) | Prebuilt components, no build step, good enough for personal site |
-| i18n_patterns with prefix_default_language=False | Clean URLs for default language, prefixed for others |
-| Debug toolbar import inside `if DEBUG` block | Avoids prod crash when package not installed |
-| Cloudflare Tunnel for home server | No exposed home IP, no port forwarding, DDoS absorbed |
+| WhiteNoise over nginx for static | Simpler stack no value at this scale |
+| Bootstrap 5 | Prebuilt components, no build step |
+| i18n_patterns | Clean URLs redirect correctly, prefixed for others |
+| Debug toolbar in Development | Easier development, security in production |
+| Cloudflare Tunnel | No exposed home IP, no port forwarding, DDoS absorbed |

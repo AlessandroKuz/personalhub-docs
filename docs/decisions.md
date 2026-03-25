@@ -1,3 +1,5 @@
+> Last updated: 25th March 2026
+
 # Decisions Log
 
 A running record of architectural and technical decisions, with rationale.
@@ -10,12 +12,14 @@ Updated as the project evolves.
 **Decision:** Run under Uvicorn/ASGI from the start, write async views throughout.
 
 **Rationale:** The cost of writing async views now is ~0 (same syntax, add `async`/`await`).
-The cost of refactoring sync → async later is non-trivial: every view, every ORM call,
-every third-party integration needs auditing. Phase 3 (blog) requires WebSockets, which
-are ASGI-only. Starting async avoids a future structural rewrite.
+The cost of refactoring sync → async later is non-trivial: every view, every ORM
+call, every third-party integration needs auditing. Phase 3 (blog) requires
+WebSockets, which are ASGI-only. Starting async avoids a future structural
+rewrite.
 
-**Consequence:** Always run the dev server as `uvicorn config.asgi:application --reload`,
-never `manage.py runserver` (which uses WSGI internally and won't test async code paths).
+**Consequence:** Always run the dev server as
+`uvicorn config.asgi:application --reload`, never `manage.py runserver`
+(which uses WSGI internally and won't test async code paths).
 
 ---
 
@@ -24,9 +28,9 @@ never `manage.py runserver` (which uses WSGI internally and won't test async cod
 **Decision:** SQLite in development, PostgreSQL in production.
 
 **Rationale:** SQLite requires zero configuration and is sufficient for local development.
-PostgreSQL is Django's best-supported production database — full ACID compliance, better
-concurrency, JSON fields, and no gotchas with Django's ORM. The settings split
-(`dev.py` / `prod.py`) makes this a single config line difference.
+PostgreSQL is Django's best-supported production database — full ACID
+compliance, better concurrency, JSON fields, and no gotchas with Django's ORM.
+The settings split (`dev.py` / `prod.py`) makes this a single config line difference.
 
 **Watch out for:** SQLite-specific behaviours that silently differ from Postgres — e.g.
 case sensitivity in `LIKE` queries, enforcement of foreign key constraints (disabled by
@@ -55,24 +59,21 @@ files correctly. If traffic ever justifies it, Cloudflare's CDN handles edge cac
 
 ---
 
-## Bootstrap 5 (not Tailwind)
+## Bootstrap 5
 
 **Decision:** Use Bootstrap 5 as the CSS framework.
 
 **Rationale:** Bootstrap provides prebuilt, accessible components (navbar, cards, grid,
-modals) without a build step. Tailwind requires a PostCSS pipeline to purge unused classes
-— a build step that adds complexity for a server-rendered site with no JS framework.
-Bootstrap 5 dropped jQuery, so there's no JS dependency conflict with HTMX.
+modals) without a build step. Bootstrap 5 dropped jQuery, so there's no JS dependency conflict with HTMX.
 
 ---
 
-## i18n_patterns with prefix_default_language=False
+## i18n_patterns
 
-**Decision:** Language prefix in URL (`/it/about/`), but default language (EN) has no prefix
-(`/about/` works, not just `/en/about/`).
+**Decision:** Language prefix in URL (`/it/about/`), when no prefix, the website handles redirection.
 
-**Rationale:** Clean URLs for the primary language audience. Italian visitors get `/it/about/`,
-which is shareable and SEO-distinct. English visitors get the clean `/about/`. The
+**Rationale:** Clean URLs for sharing. Automatic redirection. Italian visitors get `/it/about/`,
+which is shareable and SEO-distinct, English visitors get `/en/about/` and so on. The
 `LocaleMiddleware` handles detection and redirection.
 
 ---
@@ -106,7 +107,7 @@ copying `docker-compose.prod.yml` and `.env` to the new host.
 
 **Rationale:** Markdown source, no Node/React build step, outputs pure static HTML.
 Material theme is the de facto standard for Python project docs (used by FastAPI,
-Pydantic, etc.). Hosted as a static site on `docs.yourdomain.com` served by Caddy,
+Pydantic, etc.). Hosted as a static site on `docs.alessandrokuz.com` served by Caddy,
 or via Cloudflare Pages as a free static host.
 
 ---
