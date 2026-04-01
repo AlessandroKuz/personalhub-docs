@@ -4,12 +4,12 @@
 
 ## First Deploy Checklist
 
-- [ ] `.env` created with all production values set
-- [ ] `DJANGO_SETTINGS_MODULE=config.settings.prod`
-- [ ] `DEBUG=False` (enforced by prod.py, but confirm)
-- [ ] `SECRET_KEY` is a long random string — never the dev key
-- [ ] `ALLOWED_HOSTS` includes your domain name
-- [ ] All `POSTGRES_*` variables set
+- [x] `.env` created with all production values set
+- [x] `DJANGO_SETTINGS_MODULE=config.settings.prod`
+- [x] `DEBUG=False` (enforced by prod.py, but confirm)
+- [x] `SECRET_KEY` is a long random string — never the dev key
+- [x] `ALLOWED_HOSTS` includes your domain name
+- [x] All `POSTGRES_*` variables set
 - [ ] `docker compose -f docker-compose.prod.yml up -d` succeeds
 - [ ] `docker compose exec web uv run python manage.py migrate`
 - [ ] `docker compose exec web uv run python manage.py createsuperuser`
