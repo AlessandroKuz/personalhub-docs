@@ -428,35 +428,52 @@ uv run ruff format .
 
 ---
 
-## 12. Environment Variables Reference
+## 12. Developer Tooling — Command Runners
+
+Two command runner files live at the project root: `justfile` and `Makefile`. They are parallel interfaces — every command exists in both. The reason both are maintained is simple: `just` has better ergonomics for daily use (natural argument passing, no tab requirement, no implicit rules), but `make` is universally pre-installed on every Unix system and is the de facto standard that any developer will recognise immediately.
+
+**Default: always reach for `just`.** Use `make` only on a machine where `just` is not installed.
+
+### Argument passing — the one meaningful difference
+
+In the `justfile`, extra flags are passed naturally after the recipe name. In the `Makefile`, they are passed via the `ARGS` variable. This difference exists because Make was designed as a build system, not a command runner, and has no native concept of forwarding arbitrary arguments to a recipe.
 
 ```bash
-# .env.example
+# just
+just check --deploy
 
-# Django
-SECRET_KEY=
-DJANGO_SETTINGS_MODULE=config.settings.dev  # replacable with prod
-ALLOWED_HOSTS=localhost,127.0.0.1
-
-# Email (dev uses console backend — these are ignored in dev)
-EMAIL_HOST=
-EMAIL_PORT=587
-EMAIL_HOST_USER=
-EMAIL_HOST_PASSWORD=
-DEFAULT_FROM_EMAIL=
-CONTACT_EMAIL=
-
-# PostgreSQL (prod only)
-POSTGRES_DB=
-POSTGRES_USER=
-POSTGRES_PASSWORD=
-POSTGRES_HOST=db
-POSTGRES_PORT=5432
+# make equivalent
+make check ARGS="--deploy"
 ```
+
+### Why `uv run manage.py` and not `python manage.py`
+
+All management commands are invoked as `uv run manage.py` rather than `python manage.py` directly. `uv run` resolves and activates the project's virtual environment automatically before executing the script, meaning you never need to manually activate a venv or prefix commands with `source .venv/bin/activate`. It infers the Python interpreter from the file extension and the project's `.python-version` file.
+
+### The deploy recipe
+
+The `deploy` recipe in both files executes the following steps in order inside the running Docker container, and the order is load-bearing:
+
+1. `migrate` — schema changes must be applied before the new code runs against the database.
+2. `compilemessages` — ensures translated strings are available to the new code.
+3. `compress --force` — pre-compresses SCSS/JS assets and writes output files into the app's static directories. `--force` bypasses the cache unconditionally.
+4. `collectstatic` — copies everything from the app's static directories (including Compressor's freshly written output) into `STATIC_ROOT`. Must run after `compress` or it will collect stale assets.
 
 ---
 
-## 13. Decisions Log
+## 13. Environment Variables Reference
+
+Check the `.env.example` file to get started with the `.env` file, run:
+
+```shell
+cp .env.example .env
+```
+
+update the values you should be good to go.
+
+---
+
+## 14. Decisions Log
 
 | Decision | Rationale |
 | --- | --- |
