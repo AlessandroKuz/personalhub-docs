@@ -6,7 +6,7 @@
 
 - Monochromatic with a single blue accent — intentionally minimalist
 - CSS custom properties for every colour — never hardcoded values
-- Two themes (light/dark) via `data-theme` attribute on `<html>`
+- Two themes (light/dark) via `data-bs-theme` attribute on `<html>`
 - Bootstrap 5 for layout and components — no PostCSS/build step needed
 
 ---
@@ -57,7 +57,6 @@ Via a simple javascript change, the theme is updated dynamically.
   var t = s === "auto"
     ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
     : s;
-  document.documentElement.setAttribute("data-theme", t);
   document.documentElement.setAttribute("data-bs-theme", t);
 })();
 ```

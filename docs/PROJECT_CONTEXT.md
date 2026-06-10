@@ -51,7 +51,7 @@ The website serves two audiences simultaneously:
 
 - Monochromatic with single accent: warm white / near-black + blue accent
   (`#c0392b` light, `#e74c3c` dark).
-- Light and dark themes, toggled via a `data-theme` attribute on `<html>`.
+- Light and dark themes, toggled via a `data-bs-theme` attribute on `<html>`.
 - CSS custom properties (`--color-bg`, `--color-accent`, etc.) — never
   hardcoded colors.
 - Fully responsive: desktop and mobile first-class citizens.
