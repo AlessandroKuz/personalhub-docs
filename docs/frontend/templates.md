@@ -34,7 +34,7 @@ templates/
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}Alex — ML Engineer{% endblock %}</title>
+  <title>{% block title %}Alex — AI/ML Engineer{% endblock %}</title>
 
   <!-- Bootstrap 5 (CDN — no build step) -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/css/bootstrap.min.css"
