@@ -10,6 +10,7 @@
 - [x] `SECRET_KEY` is a long random string — never the dev key
 - [x] `ALLOWED_HOSTS` includes your domain name
 - [x] All `POSTGRES_*` variables set
+- [x] `REDIS_URL=redis://redis:6379/0`
 - [ ] `docker compose up -d` succeeds
 - [ ] `docker compose exec web python manage.py migrate`
 - [ ] `docker compose exec web python manage.py createsuperuser`
@@ -37,6 +38,9 @@ docker compose up -d
 
 # If there are new migrations:
 docker compose exec web python manage.py migrate
+
+# If cache invalidation needed:
+docker compose exec redis redis-cli FLUSHALL
 ```
 
 The `up -d` command replaces running containers with newly built ones with zero downtime
@@ -79,4 +83,5 @@ Schedule this with a cron job or a simple shell script on the host. Store backup
 | Email backend | Console (prints to terminal) | SMTP (actually sends) |
 | Static files | Served by Django dev server | Served by WhiteNoise |
 | HTTPS redirect | Off | On |
+| Cache backend | DummyCache (no Redis needed) | RedisCache |
 | Debug toolbar | Enabled | Not installed |

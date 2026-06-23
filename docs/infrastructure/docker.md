@@ -169,6 +169,9 @@ docker compose logs -f web
 docker compose exec web python manage.py migrate
 docker compose exec web python manage.py createsuperuser
 
+# Flush Redis cache
+docker compose exec redis redis-cli FLUSHALL
+
 # Rebuild after code changes (prod)
 docker compose build
 docker compose up -d

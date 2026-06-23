@@ -181,6 +181,32 @@ Writing and reflections, published via a lightweight editor.
 
 ---
 
+## Caching & Rate Limiting
+
+### Full-Page Caching
+
+- All public pages cached for 1 hour via Django's cache middleware
+- Cache stored in Redis (shared across 2 Uvicorn workers)
+- Cache key includes language prefix — each language version cached independently
+- Template fragment caching on nav and footer
+- Cache headers (`Cache-Control: max-age=3600`) sent with responses
+
+### 3-Layer Rate Limiting
+
+| Layer | Mechanism | Scope |
+|---|---|---|
+| Caddy edge | `rate_limit` directive (100 req/min, burst 15) | IP-based flood protection |
+| Django middleware | `RateLimitMiddleware` (4 tiers) | Per-path, per-IP |
+| Admin login | Login tier (5/min per IP + per user) | Brute-force protection |
+
+### Cache Invalidation
+
+```bash
+docker compose exec redis redis-cli FLUSHALL
+```
+
+---
+
 ## Contact Page (`/contact/`)
 
 ### Contact Form

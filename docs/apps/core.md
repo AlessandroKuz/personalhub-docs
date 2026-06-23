@@ -1,4 +1,4 @@
-> Last updated: 25th March 2026
+> Last updated: June 2026
 
 # App: Core
 
@@ -8,7 +8,7 @@ The main app. Contains all personal content: landing page, about, work/career, c
 
 - Phase 1 of the project
 - No database models (content is in templates and context dictionaries)
-- All views are async function views
+- All views are async function views with `@cache_page(3600)`
 
 ## URL Patterns
 

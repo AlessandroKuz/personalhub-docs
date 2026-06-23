@@ -13,6 +13,7 @@ templates/
 ├── 403_csrf.html                  # CSRF failure
 ├── 404.html                       # Not found
 ├── 410.html                       # Gone
+├── 429.html                       # Rate limited
 ├── 500.html                       # Server error
 ├── coming_soon.html               # Placeholder for future pages
 ├── robots.txt                     # Robots exclusion file
@@ -40,7 +41,7 @@ templates/
 ## base.html
 
 ```html
-{% load i18n static %}
+{% load i18n static cache %}
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}" data-bs-theme="light">
 <head>
@@ -96,10 +97,12 @@ templates/
 ```html
 {% load i18n %}             <!-- enable translation tags -->
 {% load static %}           <!-- enable static file URL tags -->
+{% load cache %}            <!-- enable template fragment caching -->
 
 {% trans "Hello" %}         <!-- translate a short string -->
 {% url 'core:home' %}       <!-- reverse a namespaced URL -->
 {% static 'css/main.css' %} <!-- resolve a static file URL -->
 {% include "_nav.html" %}   <!-- include a component -->
+{% cache 3600 "nav" "en" %} <!-- cache a template fragment for 1 hour -->
 {% block content %}{% endblock %}  <!-- define/override a block -->
 ```

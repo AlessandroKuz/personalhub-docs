@@ -458,5 +458,6 @@ Full test inventory:
 | `apps.blog` models | Phase 3 |
 | i18n translation strings | Content not yet written — no `.po` files to validate |
 | Authentication | No auth-protected views in scope |
+| Rate limit middleware | Requires Redis — tested manually or in integration tests |
 
 Tests will be written **before** each of these features is implemented, per TDD.

@@ -40,8 +40,18 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.csp.ContentSecurityPolicyMiddleware",  # CSP headers
     "django_htmx.middleware.HtmxMiddleware",                  # request.htmx
+    "apps.core.middleware.rate_limit.RateLimitMiddleware",    # per-path throttle
+    "django.middleware.cache.FetchFromCacheMiddleware",      # reads cache
 ]
 ```
+
+**Why `UpdateCacheMiddleware` must be first:** It processes the response *after* the
+view has run, storing it in the cache. Placing it first means it wraps the entire
+middleware stack — it captures the response after all other middleware has run.
+
+**Why `FetchFromCacheMiddleware` must be last:** It checks the cache *before* any
+downstream middleware or view runs. If a cached response exists, it returns
+immediately. Placing it last means it's the innermost middleware, closest to the view.
 
 **Why `LocaleMiddleware` must be after `SessionMiddleware`:**
 `LocaleMiddleware` reads the language preference stored in the session. If it runs before
@@ -72,6 +82,7 @@ Key variables:
 | `ALLOWED_HOSTS` | base | Comma-separated list of valid hostnames |
 | `EMAIL_*` | base | SMTP configuration |
 | `POSTGRES_*` | prod | Database connection |
+| `REDIS_URL` | prod | Redis connection string (cache + rate limit) |
 
 ---
 

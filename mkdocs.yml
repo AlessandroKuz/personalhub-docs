@@ -49,6 +49,7 @@ nav:
       - Overview: architecture/overview.md
       - Settings & Configuration: architecture/settings.md
       - URL Structure: architecture/urls.md
+      - Caching & Rate Limiting: architecture/caching.md
       - Async & ASGI: architecture/async.md
   - Apps:
       - Core: apps/core.md

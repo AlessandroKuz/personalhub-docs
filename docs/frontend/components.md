@@ -17,6 +17,7 @@ This is Django's `{% include %}` tag put to disciplined use.
 templates/
 ├── base.html               # master layout — orchestrates everything below
 ├── 4xx_base.html           # shared error page layout
+├── 429.html                # rate-limited page
 ├── components/             # structural UI — present on most/all pages
 │   ├── _nav.html
 │   ├── _footer.html
@@ -52,6 +53,7 @@ The navigation bar. Included once in `base.html`. Contains:
 - Language switcher
 - Theme toggle
 
+Template fragment caching applied: `{% cache 3600 "nav" LANGUAGE_CODE %}`.
 Keeping nav isolated means restyling or adding a link touches exactly one file.
 
 ### `_footer.html`
@@ -62,6 +64,7 @@ Site footer. Included once in `base.html`. Contains:
 - Copyright line
 - Secondary navigation if needed
 
+Template fragment caching applied: `{% cache 3600 "footer" LANGUAGE_CODE %}`.
 ### `_cta.html`
 
 The "Contact me" call-to-action block. Appears at the bottom of the landing page

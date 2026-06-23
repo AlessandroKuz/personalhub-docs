@@ -13,6 +13,8 @@
 │  Django 6 (the brain)                                               │
 │  Routing · Views · ORM · Templates · Admin · Cache                  │
 ├─────────────────────────────────────────────────────────────────────┤
+│  Redis (shared cache + rate-limit state)                            │
+├─────────────────────────────────────────────────────────────────────┤
 │  PostgreSQL (persistent data)                                       │
 ├─────────────────────────────────────────────────────────────────────┤
 │  HTMX (the nervous system)                                          │
@@ -49,6 +51,8 @@ personalhub/
 │
 ├── apps/
 │   ├── core/                   # Phase 1: home, about, work, contact
+│   │   └── middleware/
+│   │       └── rate_limit.py   # 4-tier rate limiting per path
 │   ├── projects/               # Phase 2: Project + Tag models
 │   └── blog/                   # Phase 3: Post model, writing interface
 │
@@ -56,6 +60,7 @@ personalhub/
 │   ├── base.html               # Master layout
 │   ├── components/             # _nav.html, _footer.html, _alerts.html, _toasts.html
 │   ├── 4xx_base.html           # Shared error page layout
+│   ├── 429.html                # Rate-limited response
 │   └── ...                     # 400.html, 403.html, 404.html, 500.html
 │
 ├── static/
@@ -89,7 +94,7 @@ A request to `/it/work/` travels this path:
 ```text
 Browser
   → Cloudflare (CDN / DDoS layer)
-    → Caddy (TLS termination, reverse proxy)
+    → Caddy (TLS termination, rate-limit check, reverse proxy)
       → Uvicorn (ASGI server)
         → Django middleware stack (security, locale, CSRF, ...)
           → config/urls.py (root dispatcher)
@@ -100,6 +105,10 @@ Browser
                     → Django Template → full HTML response
 ```
 
+If a cached response exists and is fresh, `FetchFromCacheMiddleware` returns it before
+any downstream middleware or view processes it — the request never reaches the view.
+
+If the rate limit is exceeded, `RateLimitMiddleware` short-circuits with a 429 response.
 For an HTMX partial request (e.g. filtering projects by tag), the response is an
 HTML fragment (`templates/partials/_project_grid.html`) rather than a full page.
 HTMX swaps it into the DOM without a page reload.

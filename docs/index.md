@@ -5,7 +5,7 @@
 Personal portfolio and central hub for Alex — Data Scientist, AI/ML Engineer, Builder.
 
 Built with Django 6 + HTMX + Bootstrap 5, served async via Uvicorn/ASGI, containerised
-with Docker, fronted by Cloudflare + Caddy, backed by PostgreSQL.
+with Docker, fronted by Cloudflare + Caddy, backed by Redis + PostgreSQL.
 
 ---
 
@@ -36,6 +36,7 @@ uv run mkdocs serve --dev-addr 127.0.0.1:8001
 | Python | 3.14 |
 | Django | 6.0 |
 | Async server | Uvicorn (ASGI) |
+| Cache / rate limit | Redis 7 |
 | CSS framework | Bootstrap 5 |
 | Interactivity | HTMX |
 | Package manager | uv |
@@ -52,7 +53,7 @@ uv run mkdocs serve --dev-addr 127.0.0.1:8001
 | Section | Contents |
 | --- | --- |
 | [Features](features.md) | Project main features |
-| [Architecture](architecture/overview.md) | Project structure, settings split, URL tree, async rationale |
+| [Architecture](architecture/overview.md) | Project structure, settings split, URL tree, caching, async rationale |
 | [Apps](apps/core.md) | Per-app views, models, URL patterns |
 | [Frontend](frontend/design-system.md) | Design system, templates, HTMX patterns, i18n |
 | [Testing](testing/tdd.md) | Testing architecture, TDD philosophy |
