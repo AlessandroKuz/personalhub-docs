@@ -73,6 +73,18 @@ and at the end of the About and Work pages. One file, three placements:
 
 If the copy, styling, or destination URL ever changes, it changes once.
 
+### `_alerts.html`
+
+Global alert banners (e.g. cookie consent, maintenance notices).
+
+### `_toasts.html`
+
+Bootstrap toast notifications. Auto-shown on page load via JavaScript.
+
+### `_shortcutsModal.html`
+
+Vim keyboard shortcuts reference modal. Triggered by pressing `?`.
+
 ---
 
 ## Content Partials

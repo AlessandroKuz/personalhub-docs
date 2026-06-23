@@ -49,7 +49,6 @@ personalhub/
 │
 ├── apps/
 │   ├── core/                   # Phase 1: home, about, work, contact
-│   ├── core/                   # Phase 1: home, about, career, contact
 │   ├── projects/               # Phase 2: Project + Tag models
 │   └── blog/                   # Phase 3: Post model, writing interface
 │
