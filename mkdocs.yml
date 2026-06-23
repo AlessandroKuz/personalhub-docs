@@ -13,7 +13,6 @@ extra_css:
 theme:
   name: material
   palette:
-    # Matches your site's light/dark aesthetic
     - scheme: default
       primary: custom
       accent: custom
@@ -27,21 +26,21 @@ theme:
         icon: material/brightness-4
         name: Switch to light mode
   features:
-    - navigation.tabs # top-level sections become tabs
-    - navigation.sections # sidebar shows sections
-    - navigation.top # "back to top" button
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
     - search.highlight
-    - content.code.copy # copy button on code blocks
+    - content.code.copy
 
 markdown_extensions:
-  - admonition # nice callout boxes (note, warning, tip)
-  - pymdownx.highlight: # syntax highlighting
+  - admonition
+  - pymdownx.highlight:
       anchor_linenums: true
-  - pymdownx.superfences # code blocks inside admonitions
-  - pymdownx.tabbed: # tabbed content blocks
+  - pymdownx.superfences
+  - pymdownx.tabbed:
       alternate_style: true
   - toc:
-      permalink: true # anchor links on headings
+      permalink: true
 
 nav:
   - Home: index.md

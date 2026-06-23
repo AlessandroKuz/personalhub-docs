@@ -29,7 +29,7 @@ all human-readable prose.
 
 ## 2. Color Tokens
 
-All tokens defined in `static/css/main.css` (or `uploads/main.css` in the design-system repo) under `:root` and `[data-bs-theme="dark"]`.
+All tokens defined in `static/css/main.css` under `:root` and `[data-bs-theme="dark"]`.
 
 ```css
 :root {
@@ -62,7 +62,7 @@ All tokens defined in `static/css/main.css` (or `uploads/main.css` in the design
 }
 ```
 
-**Bootstrap primary** (`--bs-primary`) is set in `static/scss/custom.scss` (or `uploads/custom.scss` in the design-system repo):
+**Bootstrap primary** (`--bs-primary`) is set in `static/scss/custom.scss`:
 
 ```scss
 $primary: #275DAD;
@@ -210,7 +210,7 @@ $border-radius-lg: 0.25rem;   /* 4px — cards */
 $border-radius-xl: 0.375rem;  /* 6px — modals */
 ```
 
-Set in `static/scss/custom.scss` (or `uploads/custom.scss` in the design-system repo) before Bootstrap import — propagates to all
+Set in `static/scss/custom.scss` before Bootstrap import — propagates to all
 Bootstrap components automatically. Sharp, editorial; not rounded.
 
 ---
@@ -278,12 +278,14 @@ Defined in `assets/branding/`:
 | `kuz-brand.html` | Full brand identity reference document |
 
 **Wordmark anatomy:**
+
 - Font: DM Sans 500 (geometric sans-serif — clean, versatile)
 - Tracking: `0.28–0.32em`
 - Hairline rule below letters: `1px`, accent color (`#275dad`) in color variant
 - Dark bg (`#141414`), off-white text (`#e8e6e1`) canonical form
 
 **Usage rules:**
+
 - Min width: 120px for wordmark, 16px for K avatar
 - Accent on hairline only — never on the letterforms
 - No shadows, glows, or outlines on any letterform
@@ -383,12 +385,14 @@ Same pattern in hero as `.hero-eyebrow` (32px line, 0.18em tracking).
 2-column grid layout: left = text stack, right = stat card.
 
 **Left column:**
+
 1. `.hero-eyebrow` — mono label, accent, 0.18em tracking, leading line
 2. `.hero-name` — `clamp(3.2rem, 7vw, 6rem)`, weight 700, tracking `-0.02em`
 3. `.hero-desc` — 0.95rem, muted, line-height 1.85; `strong` → text color, weight 400
 4. `.hero-cta` — flex row, gap 1rem, wraps on mobile
 
 **Right column — `.hero-card`:**
+
 - Surface background, 1px border, 4px radius, 2rem padding
 - `.status-row` — mono uppercase, green pulse dot (7px, box-shadow glow)
 - `.stat-list` — each item: mono label (small) + large value; accent sub-word in mono 0.9rem
@@ -417,6 +421,7 @@ Between hero and about sections. Horizontal scrolling strip.
 **Left:** prose paragraphs, DM Sans 300, 0.95rem, line-height 1.9.
 
 **Right:** `<dl>` facts list:
+
 - `dt`: mono 0.65rem, accent color, 0.12em tracking, uppercase
 - `dd`: 0.95rem, muted, border-bottom `--color-border`, 1.25rem padding
 
@@ -427,6 +432,7 @@ Between hero and about sections. Horizontal scrolling strip.
 3-column border-grid. Grid container bg = `--color-border`, cells bg = `--color-bg`.
 
 **`.skill-col`:**
+
 - `.skill-icon` — mono 0.72rem, accent (used as a text label, not SVG icon)
 - `.skill-col-title` — 1.35rem, weight 300
 - `p` — 0.85rem, muted, line-height 1.7
@@ -443,6 +449,7 @@ Hover: background → `--color-bg2`. If `a.skill-col`: `.skill-view-link` fades 
 2-column border-grid. Section bg = `--color-bg2`.
 
 **`.project-card`:**
+
 - 48px 44px padding
 - Hover: bg → `--color-surface`, bottom accent bar `width: 0 → 100%` (0.4s)
 - `.project-link` — absolute top-right, fades in on hover
@@ -452,6 +459,7 @@ Hover: background → `--color-bg2`. If `a.skill-col`: `.skill-view-link` fades 
 - `.project-meta` — flex wrap, margin-top auto; `.project-tag` mono 0.58rem
 
 **`.project-featured`:**
+
 - `grid-column: span 2` (full width)
 - Internal 2-col grid: content left, visual right
 - `.project-visual` — 16:9 aspect ratio, surface bg, border; contains `.terminal-preview`
@@ -479,6 +487,7 @@ weight 400), `p` (0.8rem muted).
 Section bg = `--color-bg2`. `min-height: calc(100vh - var(--footer-height))`.
 
 **`.contact-links`:** flex column. Each `.contact-link`:
+
 - `gap: 1rem → 1.4rem` on hover
 - `.contact-link-icon` — mono 0.75rem, accent
 - `.contact-link-label` — flex 1
@@ -497,10 +506,12 @@ Bootstrap Icon at 1.2rem. Color → `--color-text` on hover.
 Fixed right, `top: 50%`, `transform: translateY(-50%)`, z-index 1000.
 
 Each `.nav-link` contains:
+
 - `.dot` — 8px circle, `--color-muted`, opacity 0.3
 - `.dot-label` — absolute right-of-dot, mono 0.68rem, slides in on hover
 
 States:
+
 - **Default:** 8px dot, opacity 0.3
 - **Hover:** opacity 0.6, `scale(1.3)`, label slides in
 - **Focus:** opacity 1, 2px accent outline on dot, label visible
@@ -584,6 +595,7 @@ Right: social icons (Bootstrap Icons, `fs-5`), easter egg text, back-to-top butt
 Allows full keyboard navigation without hover animations firing spuriously.
 
 Vim shortcuts:
+
 - `h / a / w / p / c` — navigate to Home / About / Work / Projects / Contact
 - `zz` — scroll to center, `zs` — scroll to top
 - `gb / gn / gf` — open GitHub / go to next section / go to first section
@@ -627,10 +639,10 @@ Supported values: `"light"` | `"dark"`.
 ## 12. CSS File Map
 
 | File | Scope |
-|---|---|
-| `static/scss/custom.scss` (or `uploads/custom.scss` in the design-system repo) | Bootstrap overrides: `$primary`, `$font-family-*`, `$border-radius-*`, custom colors |
-| `static/css/main.css` (or `uploads/main.css` in the design-system repo) | Design tokens, base styles, navbar, cursor, scroll reveal, scrollspy, toasts, error pages, keyboard nav mode |
-| `static/css/home.css` (or `uploads/home.css` in the design-system repo) | All home-page sections: hero, marquee, about, work/skills, projects, process, contact |
+|---|---|---|
+| `static/scss/custom.scss` | Bootstrap overrides: `$primary`, `$font-family-*`, `$border-radius-*`, custom colors |
+| `static/css/main.css` | Design tokens, base styles, navbar, cursor, scroll reveal, scrollspy, toasts, error pages, keyboard nav mode |
+| `static/css/home.css` | All home-page sections: hero, marquee, about, work/skills, projects, process, contact |
 
 Page-specific CSS loaded via `{% block extra_css %}` in templates.
 
@@ -646,12 +658,11 @@ Page-specific CSS loaded via `{% block extra_css %}` in templates.
 | Favicon SVG | `static/img/favicon.svg` | K avatar mark |
 | Favicon ICO | `static/img/favicon.ico` | Fallback |
 | OG card | `static/img/og-card.png` | 1200×630px |
-| Wordmark (color) | `assets/branding/kuz-wordmark-color.svg` | Accent hairline |
-| Wordmark (mono) | `assets/branding/kuz-wordmark-mono.svg` | Neutral hairline |
-| Avatar (color) | `assets/branding/kuz-avatar-color.svg` | Accent hairline |
-| Avatar (mono) | `assets/branding/kuz-avatar-mono.svg` | Neutral hairline |
-| Brand reference | `assets/branding/kuz-brand.html` | Full identity doc |
-| Screenshots | `assets/screenshot-dark.png`, `screenshot-light.png` | Site reference |
+| Wordmark (color) | `design-system/assets/branding/kuz-wordmark-color.svg` | Accent hairline |
+| Wordmark (mono) | `design-system/assets/branding/kuz-wordmark-mono.svg` | Neutral hairline |
+| Avatar (color) | `design-system/assets/branding/kuz-avatar-color.svg` | Accent hairline |
+| Avatar (mono) | `design-system/assets/branding/kuz-avatar-mono.svg` | Neutral hairline |
+| Brand reference | `design-system/assets/branding/kuz-brand.html` | Full identity doc |
 
 ---
 

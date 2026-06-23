@@ -1,4 +1,4 @@
-> Last updated: 25th March 2026
+> Last updated: June 2026
 
 # Components
 
@@ -16,9 +16,13 @@ This is Django's `{% include %}` tag put to disciplined use.
 ```
 templates/
 ├── base.html               # master layout — orchestrates everything below
+├── 4xx_base.html           # shared error page layout
 ├── components/             # structural UI — present on most/all pages
 │   ├── _nav.html
 │   ├── _footer.html
+│   ├── _alerts.html
+│   ├── _toasts.html
+│   └── _shortcutsModal.html
 │   └── _cta.html
 └── partials/               # content fragments — often HTMX targets
     ├── _project_card.html

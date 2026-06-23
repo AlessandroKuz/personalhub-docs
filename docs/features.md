@@ -13,7 +13,7 @@ Organised by location — global elements first, then per-page.
 
 - Site name / logo — links to home (`core:home`)
 - Navigation links: About, Work, Contact, (Projects, Blog, Chat - Soon)
-- Language switcher (EN/IT/ES/DE — see [i18n](frontend/i18n.md))
+- Language switcher (EN/IT/ES/DE/UK — see [i18n](frontend/i18n.md))
 - Theme toggle (light / dark)
 - Fully responsive — collapses to hamburger menu on mobile (Bootstrap 5 navbar)
 

@@ -1,4 +1,4 @@
-> Last updated: 25th March 2026
+> Last updated: June 2026
 
 # Settings & Configuration
 
@@ -9,6 +9,8 @@ config/settings/
 ├── __init__.py     # empty — makes settings/ a Python package
 ├── base.py         # shared: apps, middleware, templates, i18n, email config
 ├── dev.py          # imports base.*, adds: DEBUG, SQLite, debug-toolbar
+├── staging.py      # imports base.*, staging env overrides
+├── test.py         # imports base.*, DummyCache, in-memory DB, MD5 hasher
 └── prod.py         # imports base.*, adds: PostgreSQL, HTTPS headers
 ```
 
@@ -26,16 +28,18 @@ config/settings/
 
 ```python
 MIDDLEWARE = [
+    "django.middleware.cache.UpdateCacheMiddleware",         # writes cache
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",        # added
+    "whitenoise.middleware.WhiteNoiseMiddleware",            # static files
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.locale.LocaleMiddleware",         # added
+    "django.middleware.locale.LocaleMiddleware",             # i18n
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "django_htmx.middleware.HtmxMiddleware",             # added
+    "django.middleware.csp.ContentSecurityPolicyMiddleware",  # CSP headers
+    "django_htmx.middleware.HtmxMiddleware",                  # request.htmx
 ]
 ```
 

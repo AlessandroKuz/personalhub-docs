@@ -1,4 +1,4 @@
-> Last updated: 25th March 2026
+> Last updated: June 2026
 
 # Deployment
 
@@ -10,11 +10,11 @@
 - [x] `SECRET_KEY` is a long random string — never the dev key
 - [x] `ALLOWED_HOSTS` includes your domain name
 - [x] All `POSTGRES_*` variables set
-- [ ] `docker compose -f docker-compose.prod.yml up -d` succeeds
-- [ ] `docker compose exec web uv run python manage.py migrate`
-- [ ] `docker compose exec web uv run python manage.py createsuperuser`
-- [ ] HTTPS working (Caddy auto-provisions cert on first request)
-- [ ] `/admin/` accessible and login works
+- [ ] `docker compose up -d` succeeds
+- [ ] `docker compose exec web python manage.py migrate`
+- [ ] `docker compose exec web python manage.py createsuperuser`
+- [ ] HTTPS working (Caddy auto-provision cert on first request)
+- [ ] `/stratos/` accessible and login works
 
 ---
 
@@ -32,11 +32,11 @@ Never reuse the dev `SECRET_KEY` in production. Never commit it.
 
 ```bash
 git pull
-docker compose -f docker-compose.prod.yml build web
-docker compose -f docker-compose.prod.yml up -d
+docker compose build web
+docker compose up -d
 
 # If there are new migrations:
-docker compose -f docker-compose.prod.yml exec web uv run python manage.py migrate
+docker compose exec web python manage.py migrate
 ```
 
 The `up -d` command replaces running containers with newly built ones with zero downtime
@@ -46,7 +46,8 @@ The `up -d` command replaces running containers with newly built ones with zero 
 
 ## Updating the Docs
 
-If using Cloudflare Pages — push the site/ directory to the deployment branch
+MkDocs source lives in the `docs/` submodule. Push to the personalhub-docs repo;
+Cloudflare Pages auto-deploys from the main branch.
 
 ```bash
 uv run mkdocs build          # builds docs/site/

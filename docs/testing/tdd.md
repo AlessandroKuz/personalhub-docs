@@ -140,7 +140,7 @@ uv add --dev pytest pytest-django pytest-asyncio pytest-cov
 
 ```toml
 [tool.pytest.ini_options]
-DJANGO_SETTINGS_MODULE = "config.settings.dev"
+DJANGO_SETTINGS_MODULE = "config.settings.test"
 asyncio_mode = "auto"
 python_files = ["tests.py", "test_*.py"]
 ```
@@ -150,8 +150,8 @@ on the asyncio event loop. Without this you'd need `@pytest.mark.asyncio` on eve
 single async test. Given that all views are async, this eliminates a lot of noise.
 
 `DJANGO_SETTINGS_MODULE` — tells pytest-django which settings file to use when
-bootstrapping Django. Points to `dev` settings: SQLite (no Postgres needed in CI),
-`DEBUG=True`, no HTTPS redirects.
+bootstrapping Django. Points to `test` settings: in-memory SQLite, DummyCache (no
+Redis needed in CI), `DEBUG=False` (required for custom error handlers to run).
 
 ---
 
@@ -251,16 +251,16 @@ pytestmark = pytest.mark.django_db
 
 `conftest.py` files are pytest's mechanism for sharing fixtures across multiple test
 files. A `conftest.py` in an app's `tests/` directory makes its fixtures available
-to all test files in that directory. A `conftest.py` at the project root makes
-fixtures available project-wide.
+to all test files in that directory.
 
 ```
-personalhub/
-├── conftest.py           ← project-wide fixtures (e.g. authenticated user)
-└── apps/
-    └── core/
-        └── tests/
-            └── conftest.py  ← core-specific fixtures (if needed)
+apps/
+└── core/
+    └── tests/
+        ├── __init__.py
+        ├── conftest.py      ← core-specific fixtures
+        ├── test_urls.py
+        └── test_views.py
 ```
 
 ---
@@ -432,18 +432,19 @@ printed inline in the terminal. This is the fastest feedback loop for identifyin
 
 ## Current Test Inventory
 
-### `apps/core` — 8 tests, all passing
+### `apps/core` — 74 tests, all passing
 
-| Test | File | What it checks |
-|---|---|---|
-| `test_core_urls_resolve[core:home-/]` | `test_urls.py` | `reverse('core:home')` → `/` |
-| `test_core_urls_resolve[core:about-/about/]` | `test_urls.py` | `/about/` and `/it/about/` |
-| `test_core_urls_resolve[core:work-/work/]` | `test_urls.py` | `/work/` and `/it/work/` |
-| `test_core_urls_resolve[core:contact-/contact/]` | `test_urls.py` | `/contact/` and `/it/contact/` |
-| `test_core_views[core:home-core/home.html]` | `test_views.py` | 200, correct template |
-| `test_core_views[core:about-core/about.html]` | `test_views.py` | 200, correct template |
-| `test_core_views[core:work-core/work.html]` | `test_views.py` | 200, correct template |
-| `test_core_views[core:contact-core/contact.html]` | `test_views.py` | 200, correct template |
+Key tests in `test_urls.py` — URL resolution and i18n prefix correctness.
+Key tests in `test_views.py` — HTTP status codes, template assertions, cache headers,
+error handlers, and page-specific content validation (hero, about facts, skills,
+process steps, contact CTA).
+
+Full test inventory:
+
+| File | What it checks |
+|---|---|
+| `test_urls.py` | URL reverse resolution, i18n prefixes, 404 for unknown paths |
+| `test_views.py` | HTTP 200 on all routes, correct templates, cache headers (`Cache-Control`), error handlers (400/403/404/429/500), page-specific content (hero name, about facts, work skills, process steps, contact CTA) |
 
 ---
 

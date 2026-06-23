@@ -36,7 +36,7 @@ your router is never touched. This is a legitimate production pattern, not a wor
 1. Create a Cloudflare account and add your domain
 2. Go to Cloudflare Zero Trust → Tunnels → Create a tunnel
 3. Download the tunnel token
-4. Add `cloudflared` service to `docker-compose.prod.yml`:
+4. Add `cloudflared` service to `docker-compose.yml`:
 
 ```yaml
 cloudflared:
@@ -111,8 +111,8 @@ Everything is Dockerized. Migration is:
 git clone https://www.github.com/AlessandroKuz/personalhub
 cd personalhub
 cp .env.example .env    # fill in prod values
-docker compose -f docker-compose.prod.yml up -d
-docker compose exec web uv run python manage.py migrate
+docker compose up -d
+docker compose exec web python manage.py migrate
 ```
 
 The application has no host-specific state. Database lives in a named Docker volume

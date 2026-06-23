@@ -1,20 +1,26 @@
-> Last updated: 25th March 2026
+> Last updated: June 2026
 
 # Architecture Overview
 
 ## The Stack in Layers
 
 ```
-┌─────────────────────────────────────────────────────┐
-│  Django 6 (the brain)                               │
-│  Routing · Views · ORM · Templates · Admin          │
-├─────────────────────────────────────────────────────┤
-│  HTMX (the nervous system)                          │
-│  Partial page updates without a full SPA            │
-├─────────────────────────────────────────────────────┤
-│  Bootstrap 5 + minimal CSS & JS (the body)                │
-│  Responsive layout · Theme toggle · Interactions    │
-└─────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────┐
+│  Caddy (TLS termination, reverse proxy, rate limiting)              │
+├─────────────────────────────────────────────────────────────────────┤
+│  Uvicorn (ASGI server, async Python event loop)                     │
+├─────────────────────────────────────────────────────────────────────┤
+│  Django 6 (the brain)                                               │
+│  Routing · Views · ORM · Templates · Admin · Cache                  │
+├─────────────────────────────────────────────────────────────────────┤
+│  PostgreSQL (persistent data)                                       │
+├─────────────────────────────────────────────────────────────────────┤
+│  HTMX (the nervous system)                                          │
+│  Partial page updates without a full SPA                            │
+├─────────────────────────────────────────────────────────────────────┤
+│  Bootstrap 5 + minimal CSS & JS (the body)                          │
+│  Responsive layout · Theme toggle · Interactions                     │
+└─────────────────────────────────────────────────────────────────────┘
 ```
 
 The guiding principle: **the server assembles HTML, the browser displays it.**
@@ -35,22 +41,26 @@ personalhub/
 │   │   ├── __init__.py         # empty — makes settings/ a Python package
 │   │   ├── base.py             # shared across all environments
 │   │   ├── dev.py              # DEBUG, SQLite, console email, debug-toolbar
+│   │   ├── staging.py          # staging environment (optional)
 │   │   └── prod.py             # PostgreSQL, HTTPS headers, security settings
 │   ├── urls.py                 # Root URL dispatcher
 │   ├── asgi.py                 # ASGI entry point (uvicorn target)
 │   └── wsgi.py
 │
 ├── apps/
+│   ├── core/                   # Phase 1: home, about, work, contact
 │   ├── core/                   # Phase 1: home, about, career, contact
 │   ├── projects/               # Phase 2: Project + Tag models
 │   └── blog/                   # Phase 3: Post model, writing interface
 │
 ├── templates/
 │   ├── base.html               # Master layout
-│   ├── components/             # _nav.html, _footer.html, _cta.html
-│   └── partials/               # HTMX fragments
+│   ├── components/             # _nav.html, _footer.html, _alerts.html, _toasts.html
+│   ├── 4xx_base.html           # Shared error page layout
+│   └── ...                     # 400.html, 403.html, 404.html, 500.html
 │
 ├── static/
+│   ├── scss/                   # Bootstrap overrides (custom.scss)
 │   ├── css/
 │   ├── js/
 │   └── img/
@@ -58,15 +68,15 @@ personalhub/
 ├── locale/                     # i18n .po / .mo files
 ├── docs/                       # MkDocs source (you are here)
 ├── site/                       # MkDocs build output (gitignored)
+├── scripts/
+│   └── dev.sh                  # Launches Django + MkDocs simultaneously
 │
 ├── manage.py                   # Django CLI entry point
-├── mkdocs.yml                  # MkDocs configuration
 ├── pyproject.toml              # uv: dependencies + tool config (ruff, etc.)
 ├── uv.lock                     # Committed lockfile — guarantees reproducible installs
 ├── .python-version             # Pins Python 3.14 — read by uv and mise
-├── Dockerfile                  # Production image definition
-├── docker-compose.yml          # Dev environment
-├── docker-compose.prod.yml     # Production environment
+├── Dockerfile                  # Multi-stage production image
+├── docker-compose.yml          # Full production stack (web + db + redis + caddy)
 ├── .env                        # Secret values — gitignored
 └── .env.example                # Committed template for .env
 ```
@@ -75,7 +85,7 @@ personalhub/
 
 ## Request Lifecycle
 
-A request to `/it/projects/` travels this path:
+A request to `/it/work/` travels this path:
 
 ```text
 Browser
@@ -85,8 +95,8 @@ Browser
         → Django middleware stack (security, locale, CSRF, ...)
           → config/urls.py (root dispatcher)
             → i18n_patterns detects 'it' prefix, sets language
-              → apps/projects/urls.py
-                → ProjectListView (async)
+              → apps/core/urls.py
+                → work view (async)
                   → ORM → PostgreSQL
                     → Django Template → full HTML response
 ```

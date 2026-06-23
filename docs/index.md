@@ -1,11 +1,11 @@
-> Last updated: 25th March 2026
+> Last updated: June 2026
 
 # Personalhub — Developer Documentation
 
 Personal portfolio and central hub for Alex — Data Scientist, AI/ML Engineer, Builder.
 
 Built with Django 6 + HTMX + Bootstrap 5, served async via Uvicorn/ASGI, containerised
-with Docker, fronted by Cloudflare.
+with Docker, fronted by Cloudflare + Caddy, backed by PostgreSQL.
 
 ---
 
@@ -41,7 +41,7 @@ uv run mkdocs serve --dev-addr 127.0.0.1:8001
 | Package manager | uv |
 | Database (dev) | SQLite |
 | Database (prod) | PostgreSQL |
-| Languages | EN (default), IT, ES, DE |
+| Languages | EN (default), IT, ES, DE, UK |
 
 ---
 

@@ -1,4 +1,4 @@
-> Last updated: 25th March 2026
+> Last updated: June 2026
 
 # Templates
 
@@ -6,11 +6,22 @@
 
 ```
 templates/
-├── base.html                   # Master layout — extended by all pages
+├── base.html                      # Master layout — extended by all pages
+├── 4xx_base.html                  # Base layout for error pages
+├── 400.html                       # Bad request
+├── 403.html                       # Permission denied
+├── 403_csrf.html                  # CSRF failure
+├── 404.html                       # Not found
+├── 410.html                       # Gone
+├── 500.html                       # Server error
+├── coming_soon.html               # Placeholder for future pages
+├── robots.txt                     # Robots exclusion file
 ├── components/
-│   ├── _nav.html               # Navigation bar (included in base.html)
-│   ├── _footer.html            # Footer (included in base.html)
-│   └── _cta.html               # "Contact me" call-to-action block
+│   ├── _nav.html                  # Navigation bar (included in base.html)
+│   ├── _footer.html               # Footer (included in base.html)
+│   ├── _alerts.html               # Global alert banners
+│   ├── _toasts.html               # Bootstrap toast notifications
+│   └── _shortcutsModal.html       # Vim keyboard shortcuts modal
 └── partials/
     ├── _contact_form.html      # HTMX fragment: contact form
     ├── _contact_success.html   # HTMX fragment: post-submit confirmation
@@ -22,6 +33,7 @@ templates/
 
 - `_underscore.html` prefix → partial or component, not a standalone page
 - `page_name.html` → full page template (always extends `base.html`)
+- Error pages extend `4xx_base.html`
 
 ---
 
@@ -52,7 +64,9 @@ templates/
     {% block content %}{% endblock %}
   </main>
 
+  {% include "components/_toasts.html" %}
   {% include "components/_footer.html" %}
+  {% include "components/_shortcutsModal.html" %}
 
   <!-- HTMX -->
   <script src="https://unpkg.com/htmx.org@2" defer></script>
@@ -86,6 +100,6 @@ templates/
 {% trans "Hello" %}         <!-- translate a short string -->
 {% url 'core:home' %}       <!-- reverse a namespaced URL -->
 {% static 'css/main.css' %} <!-- resolve a static file URL -->
-{% include "_nav.html" %}   <!-- include a partial -->
+{% include "_nav.html" %}   <!-- include a component -->
 {% block content %}{% endblock %}  <!-- define/override a block -->
 ```
